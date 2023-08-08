@@ -6,10 +6,10 @@ import { TopBar } from "../components/TopBar";
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
+      <body className="">
         <Providers>
           <TopBar />
-          {children}
+          <div className="flex flex-grow place-content-center">{children}</div>
         </Providers>
       </body>
     </html>

@@ -1,3 +1,7 @@
 export default function Home() {
-  return <div className=" flex flex-grow">Welcome to Our Cool Project!</div>;
+  return (
+    <div className="flex flex-col place-content-center">
+      Welcome to Our Cool Project!
+    </div>
+  );
 }

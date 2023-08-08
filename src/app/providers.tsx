@@ -59,7 +59,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         chains={chains}
         appInfo={{ appName: "Superhack 2023" }}
       >
-        {mounted && children}
+        {mounted && (
+          <div className="flex flex-col flex-grow min-h-screen">{children}</div>
+        )}
       </RainbowKitProvider>
     </WagmiConfig>
   );
