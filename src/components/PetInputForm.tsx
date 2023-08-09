@@ -11,9 +11,10 @@ export function PetInputForm() {
   const [clinic, setClinic] = useState<string>();
 
   return (
-    <form className="flex flex-col">
-      <label htmlFor="vaccine">Vaccine:</label>
+    <form className="flex flex-col border-2 p-8">
+      <label htmlFor="vaccine">Vaccine</label>
       <input
+        required
         id="vaccine"
         className="border-2"
         value={vaccine}
@@ -21,20 +22,28 @@ export function PetInputForm() {
       />
       <label htmlFor="vaccineDate">Vaccination Date</label>
       <input
+        required
+        type="date"
         id="vaccineDate"
         className="border-2"
         value={vaccineDate}
         onChange={(e) => setVaccineDate(e.target.value)}
       />
       <label htmlFor="vaccineRoute">Vaccination Route</label>
-      <input
+      <select
+        required
         id="vaccineRoute"
         className="border-2"
         value={vaccineRoute}
         onChange={(e) => setVaccineRoute(e.target.value)}
-      />
+      >
+        <option value="oral">Oral</option>
+        <option value="supq">Supq</option>
+      </select>
       <label htmlFor="expirationDate">Expiration Date</label>
       <input
+        required
+        type="date"
         id="expirationDate"
         className="border-2"
         value={expirationDate}
@@ -42,6 +51,7 @@ export function PetInputForm() {
       />
       <label htmlFor="vet">Vet</label>
       <input
+        required
         id="vet"
         className="border-2"
         value={vet}
@@ -49,6 +59,7 @@ export function PetInputForm() {
       />
       <label htmlFor="clinic">Clinic</label>
       <input
+        required
         id="clinic"
         className="border-2"
         value={clinic}
@@ -58,11 +69,3 @@ export function PetInputForm() {
     </form>
   );
 }
-
-// Step 1: Pet characteristics
-// Step 2: Choose from vaccines
-// Step 3: Vaccination Date
-// Step 4: Vaccination Route
-// Step 5: Expiration date
-// Step 6: Vet
-// Step 7: Clinic
