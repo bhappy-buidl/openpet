@@ -1,10 +1,27 @@
 "use client";
 import { useState } from "react";
+import { PetInputForm } from "@/components/PetInputForm";
 
+//Dummy data to build out the UI without fetching
 const pets = [
-  { name: "buddy", signed: true },
-  { name: "candus", signed: false },
-  { name: "kitty", signed: false },
+  {
+    name: "buddy",
+    signed: true,
+    image:
+      "https://images.pexels.com/photos/3090875/pexels-photo-3090875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    name: "candus",
+    signed: false,
+    image:
+      "https://images.pexels.com/photos/982300/pexels-photo-982300.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    name: "kitty",
+    signed: false,
+    image:
+      "https://images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg?auto=compress&cs=tinysrgb&w=800",
+  },
 ];
 
 export default function MyPets() {
@@ -15,16 +32,30 @@ export default function MyPets() {
       <div className="flex flex-row justify-between relative">
         <h1 className="text-7xl">My Pets</h1>
         <div className="absolute bottom-1 right-0">
-          {pets.length ? <AddPetsButton /> : null}
+          {pets.length ? (
+            <AddPetsButton onClickHandler={(e) => setOpenForm(!openForm)} />
+          ) : null}
         </div>
       </div>
+      <dialog className="border-2 w-full" open={openForm}>
+        <div className="relative">
+          <button
+            onClick={() => setOpenForm(false)}
+            className="absolute top-1 right-2"
+          >
+            x
+          </button>
+          <PetInputForm />
+        </div>
+      </dialog>
       <div className="">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
           {pets.length ? (
             pets.map((pet) => <PetDisplayTile key={pet.name} name={pet.name} />)
           ) : (
             <div>
-              You have no pets currently. Add one here. <AddPetsButton />
+              You have no pets currently. Add one here.{" "}
+              <AddPetsButton onClickHandler={(e) => setOpenForm(!openForm)} />
             </div>
           )}
         </div>
@@ -46,20 +77,17 @@ function PetDisplayTile({ name }: PetDisplayTileProps) {
   );
 }
 
-function AddPetsButton() {
+type AddPetsButtonProps = {
+  onClickHandler: React.MouseEventHandler<HTMLButtonElement>;
+};
+
+function AddPetsButton({ onClickHandler }: AddPetsButtonProps) {
   return (
-    <button className="bg-indigo-500 rounded-br-lg p-2 px-4 hover:bg-indigo-400 text-white">
+    <button
+      onClick={onClickHandler}
+      className="bg-indigo-500 rounded-br-lg p-2 px-4 hover:bg-indigo-400 text-white"
+    >
       Add Pet
     </button>
   );
-}
-
-{
-  /* <dialog className="border-2" open={openForm}>
-<p>Greetings, one and all!</p>
-<form method="dialog">
-  <button onClick={() => setOpenForm(false)}>OK</button>
-</form>
-</dialog>
-<button onClick={() => setOpenForm(true)}>Open Dialogue!</button> */
 }

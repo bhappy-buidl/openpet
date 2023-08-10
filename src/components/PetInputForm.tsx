@@ -1,69 +1,120 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export function PetInputForm() {
-  const [vaccine, setVaccine] = useState<string>();
-  const [vaccineDate, setVaccineDate] = useState<string>();
-  const [vaccineRoute, setVaccineRoute] = useState<string>();
-  const [expirationDate, setExpirationDate] = useState<string>();
-  const [vet, setVet] = useState<string>();
-  const [clinic, setClinic] = useState<string>();
+  const [name, setName] = useState<string>();
+  const [photo, setPhoto] = useState<any>();
+  const [description, setDescription] = useState<string>();
+  const [species, setSpecies] = useState<string>();
+  const [breed, setBreed] = useState<string>();
+  const [markings, setMarkings] = useState<string>();
+  const [gender, setGender] = useState<string>();
+  const [spayed, setSpayed] = useState<boolean>(false);
+  const [microchipNumber, setMicrochipNumber] = useState<string>();
+
+  const imageInputRef = useRef(null);
 
   return (
     <form className="flex flex-col border-2 p-8">
-      <label htmlFor="vaccine">Vaccine</label>
+      <label htmlFor="name">Name</label>
       <input
         required
-        id="vaccine"
+        id="name"
         className="border-2"
-        value={vaccine}
-        onChange={(e) => setVaccine(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
-      <label htmlFor="vaccineDate">Vaccination Date</label>
+      <label htmlFor="photo">Photo</label>
       <input
+        accept="image/*"
+        ref={imageInputRef}
+        type="file"
         required
-        type="date"
-        id="vaccineDate"
+        id="photo"
         className="border-2"
-        value={vaccineDate}
-        onChange={(e) => setVaccineDate(e.target.value)}
+        onChange={(e) => {
+          if (e.target.files) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith("image/")) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setPhoto(reader.result);
+              };
+              reader.readAsDataURL(file);
+            }
+          }
+        }}
       />
-      <label htmlFor="vaccineRoute">Vaccination Route</label>
-      <select
-        required
-        id="vaccineRoute"
-        className="border-2"
-        value={vaccineRoute}
-        onChange={(e) => setVaccineRoute(e.target.value)}
-      >
-        <option value="oral">Oral</option>
-        <option value="supq">Supq</option>
-      </select>
-      <label htmlFor="expirationDate">Expiration Date</label>
+      {photo && <img src={photo} />}
+      <label htmlFor="description">Description</label>
       <input
         required
-        type="date"
-        id="expirationDate"
+        id="description"
         className="border-2"
-        value={expirationDate}
-        onChange={(e) => setExpirationDate(e.target.value)}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
-      <label htmlFor="vet">Vet</label>
+      <label htmlFor="species">Species</label>
       <input
         required
-        id="vet"
+        id="species"
         className="border-2"
-        value={vet}
-        onChange={(e) => setVet(e.target.value)}
+        value={species}
+        onChange={(e) => setSpecies(e.target.value)}
       />
-      <label htmlFor="clinic">Clinic</label>
+      <label htmlFor="breed">Breed</label>
       <input
         required
-        id="clinic"
+        id="breed"
         className="border-2"
-        value={clinic}
-        onChange={(e) => setClinic(e.target.value)}
+        value={breed}
+        onChange={(e) => setBreed(e.target.value)}
+      />
+      <label htmlFor="markings">Markings</label>
+      <input
+        required
+        id="markings"
+        className="border-2"
+        value={markings}
+        onChange={(e) => setMarkings(e.target.value)}
+      />
+      <div>
+        <label htmlFor="male">Male</label>
+        <input
+          name="gender"
+          id="male"
+          value="male"
+          className=""
+          type="radio"
+          onChange={(e) => setGender(e.target.value)}
+        />
+        <label htmlFor="female">Female</label>
+        <input
+          name="gender"
+          id="female"
+          value="female"
+          className=""
+          type="radio"
+          onChange={(e) => setGender(e.target.value)}
+        />
+      </div>
+      <label htmlFor="spayed">Spayed</label>
+      <input
+        required
+        type="checkbox"
+        id="spayed"
+        checked={spayed}
+        className="border-2"
+        onChange={(e) => setSpayed(e.target.checked)}
+      />
+      <label htmlFor="microchipNumber">Microchip Number</label>
+      <input
+        required
+        id="microchipNumber"
+        className="border-2"
+        value={microchipNumber}
+        onChange={(e) => setMicrochipNumber(e.target.value)}
       />
       <button type="submit">Submit</button>
     </form>
