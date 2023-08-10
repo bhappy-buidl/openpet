@@ -9,7 +9,9 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       <body className="">
         <Providers>
           <TopBar />
-          <div className="flex flex-grow place-content-center">{children}</div>
+          <div className="flex flex-grow place-content-center p-4">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
