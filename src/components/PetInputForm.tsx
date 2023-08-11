@@ -16,7 +16,7 @@ export function PetInputForm() {
   const imageInputRef = useRef(null);
 
   return (
-    <form className="flex flex-col border-2 p-8">
+    <form className="flex flex-col border-2 p-8 grid grid-cols-2 md:grid-cols-4 gap-4">
       <label htmlFor="name">Name</label>
       <input
         required
@@ -46,7 +46,7 @@ export function PetInputForm() {
           }
         }}
       />
-      {photo && <img src={photo} />}
+      {/* {photo && <img src={photo} />} */}
       <label htmlFor="description">Description</label>
       <input
         required
@@ -55,6 +55,7 @@ export function PetInputForm() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+
       <label htmlFor="species">Species</label>
       <input
         required
@@ -63,6 +64,7 @@ export function PetInputForm() {
         value={species}
         onChange={(e) => setSpecies(e.target.value)}
       />
+
       <label htmlFor="breed">Breed</label>
       <input
         required
@@ -71,6 +73,7 @@ export function PetInputForm() {
         value={breed}
         onChange={(e) => setBreed(e.target.value)}
       />
+
       <label htmlFor="markings">Markings</label>
       <input
         required
@@ -99,15 +102,17 @@ export function PetInputForm() {
           onChange={(e) => setGender(e.target.value)}
         />
       </div>
-      <label htmlFor="spayed">Spayed</label>
-      <input
-        required
-        type="checkbox"
-        id="spayed"
-        checked={spayed}
-        className="border-2"
-        onChange={(e) => setSpayed(e.target.checked)}
-      />
+      <div>
+        <label htmlFor="spayed">Spayed</label>
+        <input
+          required
+          type="checkbox"
+          id="spayed"
+          checked={spayed}
+          className="border-2"
+          onChange={(e) => setSpayed(e.target.checked)}
+        />
+      </div>
       <label htmlFor="microchipNumber">Microchip Number</label>
       <input
         required
@@ -116,7 +121,10 @@ export function PetInputForm() {
         value={microchipNumber}
         onChange={(e) => setMicrochipNumber(e.target.value)}
       />
-      <button type="submit">Submit</button>
+
+      <button className="absolute bottom-1 right-1" type="submit">
+        Submit
+      </button>
     </form>
   );
 }
