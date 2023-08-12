@@ -111,9 +111,20 @@ export default function MyPets() {
             </dialog>
           </div>
           {displayvaxForms && (
-            <dialog className="border-2 z-30" open={displayvaxForms}>
-              <AddVaxInfoForm setDisplayVaxForms={setDisplayVaxForms} />
-            </dialog>
+            <div
+              className={
+                displayvaxForms
+                  ? "fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50"
+                  : "hidden"
+              }
+            >
+              <dialog
+                className="z-30 drop-shadow-2xl rounded-lg dialog-animation w-full md:w-auto"
+                open={displayvaxForms}
+              >
+                <AddVaxInfoForm setDisplayVaxForms={setDisplayVaxForms} />
+              </dialog>
+            </div>
           )}
           <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">

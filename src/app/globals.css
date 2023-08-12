@@ -34,20 +34,18 @@
 
 @keyframes slideUp {
   from {
-    transform: translate(-50%, 50%);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translate(-50%, -20%);
+    transform: translateY(0);
     opacity: 1;
   }
 }
 
 .dialog-animation {
   animation: slideUp 0.2s ease-out forwards;
-  position: fixed;
-  left: 50%;
-  bottom: 0;
+  position: relative;
 }
 
 @keyframes grow {
