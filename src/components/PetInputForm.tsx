@@ -11,7 +11,7 @@ export function PetInputForm() {
   const [clinic, setClinic] = useState<string>();
 
   return (
-    <form className="flex flex-col border-2 p-8">
+    <form className=" bg-orange-50 rounded-2xl flex flex-col border-2 p-8">
       <label htmlFor="vaccine">Vaccine</label>
       <input
         required
