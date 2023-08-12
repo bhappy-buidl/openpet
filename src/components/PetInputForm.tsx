@@ -16,7 +16,7 @@ export function PetInputForm() {
   const imageInputRef = useRef(null);
 
   return (
-    <form className="flex flex-col border-2 p-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <form className="flex flex-col p-8 grid grid-cols-2 gap-4">
       <label htmlFor="name">Name</label>
       <input
         required
@@ -46,7 +46,6 @@ export function PetInputForm() {
           }
         }}
       />
-      {/* {photo && <img src={photo} />} */}
       <label htmlFor="description">Description</label>
       <input
         required
@@ -55,7 +54,6 @@ export function PetInputForm() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-
       <label htmlFor="species">Species</label>
       <input
         required
@@ -82,6 +80,7 @@ export function PetInputForm() {
         value={markings}
         onChange={(e) => setMarkings(e.target.value)}
       />
+      <label>Gender:</label>
       <div>
         <label htmlFor="male">Male</label>
         <input
@@ -102,6 +101,7 @@ export function PetInputForm() {
           onChange={(e) => setGender(e.target.value)}
         />
       </div>
+      <label>Spayed?</label>
       <div>
         <label htmlFor="spayed">Spayed</label>
         <input
@@ -117,12 +117,15 @@ export function PetInputForm() {
       <input
         required
         id="microchipNumber"
-        className="border-2"
+        className="border-2 mb-10"
         value={microchipNumber}
         onChange={(e) => setMicrochipNumber(e.target.value)}
       />
 
-      <button className="absolute bottom-1 right-1" type="submit">
+      <button
+        className="absolute bottom-2 right-2 bg-indigo-500 rounded-br-lg p-2 px-4 hover:bg-indigo-400 text-white"
+        type="submit"
+      >
         Submit
       </button>
     </form>

@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes rainbow {
+  0% {
+    background: #ff9aa2;
+  }
+  25% {
+    background: #ffbbc2;
+  }
+  50% {
+    background: #ffb395;
+  }
+  75% {
+    background: #ffcca5;
+  }
+  100% {
+    background: #ff9aa2;
+  }
+}
+
+.rainbow-bg {
+  animation: rainbow 15s linear infinite;
+  filter: blur(10px);
+  opacity: 0.2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 50%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -20%);
+    opacity: 1;
+  }
+}
+
+.dialog-animation {
+  animation: slideUp 0.2s ease-out forwards;
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+}
