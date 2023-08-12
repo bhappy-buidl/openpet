@@ -16,7 +16,7 @@ export function PetInputForm() {
   const imageInputRef = useRef(null);
 
   return (
-    <form className="flex flex-col border-2 p-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <form className=" bg-orange-50 rounded-2xl	flex flex-col border-2 p-8 grid grid-cols-2 md:grid-cols-4 gap-4">
       <label htmlFor="name">Name</label>
       <input
         required
