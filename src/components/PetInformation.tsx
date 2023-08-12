@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type PetInformationProps = {
   name: string;
@@ -43,33 +43,30 @@ export function PetInformation({
       {microchip && (
         <p className="text-center leading-8">
           Chip Number <br />
-          <span className="border-2 py-1 px-3 rounded-full shadow-md border-indigo-500">
+          <span className="border-2 py-1 px-3 rounded-full shadow-md border-orange-500">
             {microchip}
           </span>
         </p>
       )}
       <div className="container md:w-1/3">
-        <p className="font-light text-center h-12">
-          {description.slice(0, 100)}
-        </p>
-        <div className="flex flex-row gap-2">
+        <p className="font-light text-center">{description}</p>
+
+        <div className="grid grid-cols-2 rounded-lg border-2 gap-2 p-4 my-4 bg-white">
           <p>Markings: </p>
           <div className="flex flex-wrap gap-2">
             {markings.map((marking) => (
               <p
-                className="border-2 py-1 px-2 rounded-full shadow-md border-indigo-500 text-xs"
+                className="border-2 py-1 px-2 rounded-full shadow-md border-orange-500 text-xs"
                 key={marking}
               >
                 {marking}
               </p>
             ))}
           </div>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 w-7/8 pb-10">
           <p>Species: </p> <p>{species}</p>
           <p>Breed: </p> <p>{breed}</p>
           <p>Gender: </p> <p>{gender}</p>
-          <p>Spayed: </p> <p>{spayed}</p>
+          <p>Spayed: </p> <p>{spayed.toString()}</p>
         </div>
       </div>
     </div>
