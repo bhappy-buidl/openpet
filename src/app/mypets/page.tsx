@@ -176,7 +176,7 @@ function PetDisplayTile({
   setPetDisplayIndex,
 }: PetDisplayTileProps) {
   return (
-    <div className="flex flex-col p-4 rounded-br-lg rounded-tl-lg shadow-md gap-4 relative hover:bg-slate-50 transition-all">
+    <div className="flex flex-col p-4 rounded-br-lg rounded-tl-lg shadow-md gap-4 relative hover:bg-slate-50 transition-all bg-white">
       <div className="flex flex-row items-center gap-2">
         <div className="">
           <img
@@ -197,13 +197,13 @@ function PetDisplayTile({
       <div className="flex flex-row gap-2">
         <button
           onClick={() => setPetDisplayIndex(index)}
-          className="text-sm border-indigo-400 border-2 rounded-lg p-2 px-4 hover:bg-indigo-100 text-black button-grow drop-shadow-md flex-grow"
+          className="text-sm border-orange-400 border-2 rounded-lg p-2 px-4 text-black button-grow drop-shadow-md flex-grow"
         >
           More Info
         </button>
         <button
           onClick={() => setDisplayVaxForms(true)}
-          className="text-sm border-indigo-400 border-2 rounded-lg p-2 px-4 hover:bg-indigo-100 text-black button-grow drop-shadow-md flex-grow"
+          className="text-sm border-orange-400 border-2 rounded-lg p-2 px-4 text-black button-grow drop-shadow-md flex-grow"
         >
           Add Health Details
         </button>
@@ -216,9 +216,9 @@ function AddPetsButton({ onClickHandler }: AddPetsButtonProps) {
   return (
     <button
       onClick={onClickHandler}
-      className="bg-indigo-500 rounded-lg p-2 px-4 hover:bg-indigo-400 text-white button-grow drop-shadow-md"
+      className="bg-orange-500 rounded-lg p-2 px-4 hover:bg-orange-300 text-white button-grow drop-shadow-md"
     >
-      Add Pet
+      Add Pet +
     </button>
   );
 }

@@ -26,7 +26,7 @@ export function PetInformation({
   setPetDisplayIndex,
 }: PetInformationProps) {
   return (
-    <div className="border-2 flex flex-col items-center p-4 rounded-br-lg rounded-tl-lg shadow-md gap-4 relative min-h-screen">
+    <div className="flex flex-col items-center p-4 rounded-br-lg rounded-tl-lg shadow-md gap-4 relative min-h-screen">
       <button
         onClick={() => setPetDisplayIndex(-1)}
         className="absolute top-0 right-2"
@@ -48,25 +48,29 @@ export function PetInformation({
           </span>
         </p>
       )}
-      <p className="font-light text-center h-12">{description.slice(0, 100)}</p>
-      <div className="flex flex-row gap-2">
-        <p>Markings: </p>
-        <div className="flex flex-wrap gap-2">
-          {markings.map((marking) => (
-            <p
-              className="border-2 py-1 px-2 rounded-full shadow-md border-indigo-500 text-xs"
-              key={marking}
-            >
-              {marking}
-            </p>
-          ))}
+      <div className="container md:w-1/3">
+        <p className="font-light text-center h-12">
+          {description.slice(0, 100)}
+        </p>
+        <div className="flex flex-row gap-2">
+          <p>Markings: </p>
+          <div className="flex flex-wrap gap-2">
+            {markings.map((marking) => (
+              <p
+                className="border-2 py-1 px-2 rounded-full shadow-md border-indigo-500 text-xs"
+                key={marking}
+              >
+                {marking}
+              </p>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 w-7/8 text-xs pb-10">
-        <p>Species: </p> <p>{species}</p>
-        <p>Breed: </p> <p>{breed}</p>
-        <p>Gender: </p> <p>{gender}</p>
-        <p>Spayed: </p> <p>{spayed}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 w-7/8 pb-10">
+          <p>Species: </p> <p>{species}</p>
+          <p>Breed: </p> <p>{breed}</p>
+          <p>Gender: </p> <p>{gender}</p>
+          <p>Spayed: </p> <p>{spayed}</p>
+        </div>
       </div>
     </div>
   );

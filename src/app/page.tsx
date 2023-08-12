@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <TopBar />
-      <div className="rainbow-bg"></div>
       <div className="flex flex-col flex-grow justify-center">
         <div className="flex flex-row items-center justify-center max-w-screen-xl mx-auto">
           <div className="w-full md:w-1/2">
@@ -20,7 +19,7 @@ export default function Home() {
               need in managing pet care
             </p>
             <a href="/mypets">
-              <button className="mt-4 bg-indigo-500 rounded-lg p-2 px-4 hover:bg-indigo-400 text-white button-grow drop-shadow-md">
+              <button className="mt-4 bg-orange-500 rounded-lg p-2 px-4 hover:bg-orange-300 text-white button-grow drop-shadow-md">
                 Get Started
               </button>
             </a>

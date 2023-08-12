@@ -18,14 +18,14 @@ export function AddVaxInfoForm({ setDisplayVaxForms }: AddVaxInfoFormProps) {
   const [certFormDetails, setCertFormDetails] = useState();
 
   return (
-    <div className="relative p-4">
+    <div className="relative px-10 py-4 transition-all">
       <button
-        className="absolute top-0 right-1"
+        className="absolute top-1 right-2"
         onClick={() => setDisplayVaxForms(false)}
       >
         x
       </button>
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-6 pb-10 pt-5">
         <button onClick={() => setCurrentFormIndex(0)}>
           Submit Vaccination
         </button>

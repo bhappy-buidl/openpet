@@ -16,12 +16,14 @@ export function PetInputForm() {
   const imageInputRef = useRef(null);
 
   return (
+    <div>
+      <h1 className="pl-8 pt-8 text-4xl">Add Your Pet</h1>
     <form className="flex flex-col p-8 grid grid-cols-2 gap-4">
       <label htmlFor="name">Name</label>
       <input
         required
         id="name"
-        className="border-2"
+        className="border-2 rounded-lg"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
@@ -32,7 +34,7 @@ export function PetInputForm() {
         type="file"
         required
         id="photo"
-        className="border-2"
+        className=""
         onChange={(e) => {
           if (e.target.files) {
             const file = e.target.files[0];
@@ -50,7 +52,7 @@ export function PetInputForm() {
       <input
         required
         id="description"
-        className="border-2"
+        className="border-2 rounded-lg"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
@@ -58,7 +60,7 @@ export function PetInputForm() {
       <input
         required
         id="species"
-        className="border-2"
+        className="border-2 rounded-lg"
         value={species}
         onChange={(e) => setSpecies(e.target.value)}
       />
@@ -67,7 +69,7 @@ export function PetInputForm() {
       <input
         required
         id="breed"
-        className="border-2"
+        className="border-2 rounded-lg"
         value={breed}
         onChange={(e) => setBreed(e.target.value)}
       />
@@ -76,12 +78,12 @@ export function PetInputForm() {
       <input
         required
         id="markings"
-        className="border-2"
+        className="border-2 rounded-lg"
         value={markings}
         onChange={(e) => setMarkings(e.target.value)}
       />
       <label>Gender:</label>
-      <div>
+      <div className="flex flex-row gap-2">
         <label htmlFor="male">Male</label>
         <input
           name="gender"
@@ -102,7 +104,7 @@ export function PetInputForm() {
         />
       </div>
       <label>Spayed?</label>
-      <div>
+      <div className="flex flex-row gap-2">
         <label htmlFor="spayed">Spayed</label>
         <input
           required
@@ -117,17 +119,18 @@ export function PetInputForm() {
       <input
         required
         id="microchipNumber"
-        className="border-2 mb-10"
+        className="border-2 rounded-lg mb-10"
         value={microchipNumber}
         onChange={(e) => setMicrochipNumber(e.target.value)}
       />
 
       <button
-        className="absolute bottom-2 right-2 text-sm bg-indigo-500 rounded-lg p-2 px-4 hover:bg-indigo-400 text-white button-grow drop-shadow-md"
+        className="absolute bottom-2 right-2 text-sm bg-orange-500 rounded-lg p-2 px-4 hover:bg-orange-300 text-white button-grow drop-shadow-md"
         type="submit"
       >
         Submit
       </button>
     </form>
+    </div>
   );
 }
