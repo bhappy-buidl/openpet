@@ -6,13 +6,8 @@ import { TopBar } from "../components/TopBar";
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="">
-        <Providers>
-          <TopBar />
-          <div className="flex flex-grow place-content-center p-4">
-            {children}
-          </div>
-        </Providers>
+      <body className="bg-gradient-to-br from-white via-white to-orange-100">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
