@@ -123,7 +123,7 @@ export function PetInputForm() {
       />
 
       <button
-        className="absolute bottom-2 right-2 bg-indigo-500 rounded-br-lg p-2 px-4 hover:bg-indigo-400 text-white"
+        className="absolute bottom-2 right-2 text-sm bg-indigo-500 rounded-lg p-2 px-4 hover:bg-indigo-400 text-white button-grow drop-shadow-md"
         type="submit"
       >
         Submit

@@ -20,7 +20,7 @@ export default function Home() {
               need in managing pet care
             </p>
             <a href="/mypets">
-              <button className="mt-4 bg-indigo-500 rounded-br-lg p-2 px-5 hover:bg-indigo-700 transition ease-in-out duration-200 rounded text-white">
+              <button className="mt-4 bg-indigo-500 rounded-lg p-2 px-4 hover:bg-indigo-400 text-white button-grow drop-shadow-md">
                 Get Started
               </button>
             </a>

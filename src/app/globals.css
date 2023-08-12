@@ -49,3 +49,17 @@
   left: 50%;
   bottom: 0;
 }
+
+@keyframes grow {
+  to {
+    transform: scale(1.05);
+  }
+}
+
+.button-grow {
+  transition: transform 0.3s ease-out;
+}
+
+.button-grow:hover {
+  animation: grow 0.2s ease-out forwards;
+}
