@@ -15,7 +15,7 @@ const pets = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
     species: "cat",
     breed: "american shorthair",
-    markings: ["white paws", "brown and black pattern"],
+    markings: "white paws, brown and black pattern",
     gender: "male",
     spayed: true,
     microchip: "sk72x9sjlx8",
@@ -28,7 +28,7 @@ const pets = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
     species: "cat",
     breed: "american shorthair",
-    markings: ["white paws", "brown and black pattern"],
+    markings: "white paws, brown and black pattern",
     gender: "male",
     spayed: true,
     microchip: "sk72x9sjlx8",
@@ -40,11 +40,8 @@ const pets = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     species: "cat",
     breed: "maine coon",
-    markings: [
-      "white spotted face",
-      "light brown and white stripes",
-      "light brown and white stripes",
-    ],
+    markings:
+      "white spotted face, light brown and white stripes, light brown and white stripes",
     gender: "female",
     spayed: false,
     microchip: "j557x97dh53",
@@ -57,7 +54,7 @@ const pets = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     species: "dog",
     breed: "english lab",
-    markings: ["black fur"],
+    markings: "black fur",
     gender: "male",
     spayed: true,
     microchip: "oi71qxsju72",
@@ -73,7 +70,7 @@ type PetDisplayTileProps = {
   description: string;
   species: string;
   breed: string;
-  markings: string[];
+  markings: string;
   gender: string;
   spayed: boolean;
   microchip: string;
@@ -119,7 +116,7 @@ export default function MyPets() {
                 >
                   ✖️
                 </button>
-                <PetInputForm />
+                <PetInputForm setOpenForm={setOpenForm} />
               </div>
             </dialog>
           </div>
