@@ -102,9 +102,9 @@ export default function MyPets() {
               <div className="relative">
                 <button
                   onClick={() => setOpenForm(false)}
-                  className="absolute top-1 right-2"
+                  className="absolute top-2 right-2 rounded-full border-2 py-1 px-2 button-grow"
                 >
-                  x
+                  ✖️
                 </button>
                 <PetInputForm />
               </div>

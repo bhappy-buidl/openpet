@@ -20,10 +20,10 @@ export function AddVaxInfoForm({ setDisplayVaxForms }: AddVaxInfoFormProps) {
   return (
     <div className="relative px-10 py-4 transition-all">
       <button
-        className="absolute top-1 right-2"
+        className="absolute top-2 right-2 rounded-full border-2 py-1 px-2 button-grow"
         onClick={() => setDisplayVaxForms(false)}
       >
-        x
+        ✖️
       </button>
       <div className="flex flex-row gap-6 pb-10 pt-5">
         <button onClick={() => setCurrentFormIndex(0)}>
