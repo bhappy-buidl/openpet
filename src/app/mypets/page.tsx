@@ -1,9 +1,14 @@
 "use client";
-import { useState, Dispatch, SetStateAction } from "react";
+import PetABI from "@/app/abi/OpenPetNFT.json";
+import { AddVaxInfoForm } from "@/components/AddVaxInfoForm";
+import { PetInformation } from "@/components/PetInformation";
 import { PetInputForm } from "@/components/PetInputForm";
 import { TopBar } from "@/components/TopBar";
-import { PetInformation } from "@/components/PetInformation";
-import { AddVaxInfoForm } from "@/components/AddVaxInfoForm";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { getContract } from "viem";
+import { useAccount } from "wagmi";
+import { getWalletClient } from "wagmi/actions";
+import { baseGoerli } from "wagmi/chains";
 
 //Dummy data to build out the UI without fetching
 const pets = [
@@ -85,6 +90,68 @@ export default function MyPets() {
 
   const [displayvaxForms, setDisplayVaxForms] = useState<boolean>(false);
 
+  const [petTokenIDs, setPetTokenIDs] = useState<any>([]);
+
+  const [petsArweaveLink, setArweavePetsLink] = useState<any>([]);
+
+  const { address, isConnecting, isDisconnected } = useAccount();
+
+  useEffect(() => {
+    fetch(
+      "https://api.studio.thegraph.com/query/37243/open-pet/version/latest",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
+        query GetPets($address: String!) {
+          transfers(first: 10, where: {to: $address}) {
+            tokenId
+            transactionHash
+          }}`,
+          variables: {
+            address: "0x05d0939eA98079C00Cc1e9646e14F60c6A801e29",
+          },
+        }),
+      }
+    )
+      .then((data) => {
+        return data.json();
+      })
+      .then((response: any) => {
+        setPetTokenIDs(response.data.transfers);
+      });
+  }, []);
+
+  useEffect(() => {
+    async function getPets() {
+      const walletClient = await getWalletClient({
+        chainId: baseGoerli.id,
+      });
+
+      const contract = getContract({
+        address: "0xaB2D4c1892a9064d47252794e4810a8E098f04a2",
+        abi: PetABI.abi,
+        walletClient,
+      });
+
+      return Promise.all(
+        petTokenIDs.map(
+          async (token: { tokenId: string; transactionHash: string }) => {
+            console.log("TOKEN inside MAP", token);
+            return contract.read.getPet([token.tokenId]); // Note: change to getPet
+          }
+        )
+      );
+    }
+
+    if (petTokenIDs) {
+      getPets().then((pets) => console.log("these are the pets!", pets));
+    }
+  }, [petTokenIDs]);
+
   if (petDisplayIndex == -1) {
     return (
       <div className="flex flex-col flex-grow place-content-center min-w-full max-w-2xl mx-auto">
@@ -141,7 +208,7 @@ export default function MyPets() {
               {pets.length ? (
                 pets.map((pet, index) => (
                   <PetDisplayTile
-                    key={pet.name}
+                    key={index}
                     {...pet}
                     index={index}
                     setPetDisplayIndex={setPetDisplayIndex}
