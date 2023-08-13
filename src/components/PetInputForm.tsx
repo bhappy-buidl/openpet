@@ -33,12 +33,15 @@ export function PetInputForm({ setOpenForm }: PetInputFormProps) {
         chainId: baseGoerli.id,
       });
 
+      //@ts-ignore
       const contract = getContract({
         address: "0xaB2D4c1892a9064d47252794e4810a8E098f04a2",
         abi: PetABI.abi,
+        //@ts-ignore
         walletClient,
       });
 
+      //@ts-ignore
       const hash = await contract.write.mintPet([name, transactionId]);
       return hash;
     }
