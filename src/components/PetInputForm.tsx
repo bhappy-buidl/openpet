@@ -46,7 +46,7 @@ export function PetInputForm() {
       });
 
       if (response.ok) {
-        // Handle success, like redirecting or showing a message
+        // we should close the form here
       } else {
         // Handle error
       }
@@ -150,7 +150,6 @@ export function PetInputForm() {
         <div className="flex flex-row gap-2">
           <label htmlFor="spayed">Spayed</label>
           <input
-            required
             type="checkbox"
             id="spayed"
             checked={spayed}
