@@ -25,7 +25,7 @@ export function AddVaxInfoForm({ setDisplayVaxForms }: AddVaxInfoFormProps) {
       >
         ✖️
       </button>
-      <div className="flex flex-row gap-6 pb-10 pt-5">
+      <div className="flex flex-row gap-6 pb-10 pt-8">
         <button onClick={() => setCurrentFormIndex(0)}>
           Submit Vaccination
         </button>
