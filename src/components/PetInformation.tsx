@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useRef } from "react";
 
 type PetInformationProps = {
   name: string;
@@ -35,8 +35,9 @@ export function PetInformation({
       >
         ✖️
       </button>
+
       <dialog
-        className="z-10 drop-shadow-2xl rounded-lg dialog-animation w-full md:w-auto"
+        className="z-200 drop-shadow-2xl rounded-lg dialog-animation w-full md:w-auto"
         open={editPetForm}
       >
         <div className="relative">
@@ -56,9 +57,11 @@ export function PetInformation({
             gender={gender}
             spayed={spayed}
             microchip={microchip}
+            setEditPetForm={setEditPetForm}
           />
         </div>
       </dialog>
+
       <div className="">
         <img
           className="object-cover rounded-full w-32 h-32 object-cover rounded-full drop-shadow-lg"
@@ -94,7 +97,10 @@ export function PetInformation({
           <p>Gender: </p> <p>{gender}</p>
           <p>Spayed: </p> <p>{spayed.toString()}</p>
         </div>
-        <button className="flex-grow w-full text-sm border-orange-400 border-2 rounded-lg p-2 px-4 text-black button-grow drop-shadow-md">
+        <button
+          onClick={() => setEditPetForm(true)}
+          className="flex-grow w-full text-sm border-orange-400 border-2 rounded-lg p-2 px-4 text-black button-grow drop-shadow-md"
+        >
           Edit Pet Information
         </button>
       </div>
@@ -112,6 +118,7 @@ type EditPetFormProps = {
   gender: string;
   spayed: boolean;
   microchip: string;
+  setEditPetForm: Dispatch<SetStateAction<boolean>>;
 };
 
 function EditPetForm({
@@ -124,12 +131,74 @@ function EditPetForm({
   gender,
   spayed,
   microchip,
+  setEditPetForm,
 }: EditPetFormProps) {
+  const [editPetFormState, setEditPetFormState] = useState({
+    name,
+    photo,
+    description,
+    species,
+    breed,
+    markings,
+    gender,
+    spayed,
+    microchip,
+  });
+
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", name || "Default Name");
+
+    if (imageInputRef.current?.files?.length) {
+      formData.append("photo", imageInputRef.current.files[0]);
+    } else {
+      console.log("no file added for pet photo");
+    }
+
+    formData.append(
+      "description",
+      editPetFormState.description || "Default Description"
+    );
+    formData.append("species", editPetFormState.species || "Default Species");
+    formData.append("breed", editPetFormState.breed || "Default Breed");
+    formData.append(
+      "markings",
+      editPetFormState.markings || "Default Markings"
+    );
+    formData.append("gender", editPetFormState.gender || "Default Gender"); // Assuming gender is required, no default
+    formData.append("spayed", editPetFormState.spayed?.toString() || "false"); // Default to false if not checked
+    formData.append(
+      "microchipNumber",
+      editPetFormState.microchip || "Default MicrochipNumber"
+    );
+
+    try {
+      console.log("gets here");
+      const response = await fetch("/api", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log("SUCCESS!");
+        setEditPetForm(false);
+      } else {
+        // Handle error
+      }
+    } catch (error) {
+      // Handle fetch error
+    }
+  };
+
   return (
     <div>
       <h1 className="pl-8 pt-8 text-4xl">Add Your Pet</h1>
       <form
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         className="flex flex-col p-8 grid grid-cols-2 gap-4"
       >
         <label htmlFor="name">Name</label>
@@ -137,10 +206,15 @@ function EditPetForm({
           required
           id="name"
           className="border-2 rounded-lg"
-          value={name}
-          // onChange={(e) => setName(e.target.value)}
+          value={editPetFormState.name}
+          onChange={(e) =>
+            setEditPetFormState({
+              ...editPetFormState,
+              name: e.target.value,
+            })
+          }
         />
-        {/* <label htmlFor="photo">Photo</label>
+        <label htmlFor="photo">Photo</label>
         <input
           accept="image/*"
           ref={imageInputRef}
@@ -154,46 +228,67 @@ function EditPetForm({
               if (file && file.type.startsWith("image/")) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  setPhoto(reader.result);
+                  // setEditPetFormState({
+                  //   ...editPetFormState,
+                  //   photo: reader.result,
+                  // })
                 };
                 reader.readAsDataURL(file);
               }
             }
           }}
-        /> */}
+        />
         <label htmlFor="description">Description</label>
         <input
           required
           id="description"
           className="border-2 rounded-lg"
-          value={description}
-          // onChange={(e) => setDescription(e.target.value)}
+          value={editPetFormState.description}
+          onChange={(e) =>
+            setEditPetFormState({
+              ...editPetFormState,
+              description: e.target.value,
+            })
+          }
         />
         <label htmlFor="species">Species</label>
         <input
           required
           id="species"
           className="border-2 rounded-lg"
-          value={species}
-          // onChange={(e) => setSpecies(e.target.value)}
+          value={editPetFormState.species}
+          onChange={(e) =>
+            setEditPetFormState({
+              ...editPetFormState,
+              species: e.target.value,
+            })
+          }
         />
-
         <label htmlFor="breed">Breed</label>
         <input
           required
           id="breed"
           className="border-2 rounded-lg"
-          value={breed}
-          // onChange={(e) => setBreed(e.target.value)}
+          value={editPetFormState.breed}
+          onChange={(e) =>
+            setEditPetFormState({
+              ...editPetFormState,
+              breed: e.target.value,
+            })
+          }
         />
-
         <label htmlFor="markings">Markings</label>
         <input
           required
           id="markings"
           className="border-2 rounded-lg"
-          value={markings}
-          // onChange={(e) => setMarkings(e.target.value)}
+          value={editPetFormState.markings}
+          onChange={(e) =>
+            setEditPetFormState({
+              ...editPetFormState,
+              species: e.target.value,
+            })
+          }
         />
         <label>Gender:</label>
         <div className="flex flex-row gap-2">
@@ -204,7 +299,12 @@ function EditPetForm({
             value="male"
             className=""
             type="radio"
-            // onChange={(e) => setGender(e.target.value)}
+            onChange={(e) =>
+              setEditPetFormState({
+                ...editPetFormState,
+                gender: e.target.value,
+              })
+            }
           />
           <label htmlFor="female">Female</label>
           <input
@@ -213,7 +313,12 @@ function EditPetForm({
             value="female"
             className=""
             type="radio"
-            // onChange={(e) => setGender(e.target.value)}
+            onChange={(e) =>
+              setEditPetFormState({
+                ...editPetFormState,
+                gender: e.target.value,
+              })
+            }
           />
         </div>
         <label>Spayed?</label>
@@ -222,9 +327,14 @@ function EditPetForm({
           <input
             type="checkbox"
             id="spayed"
-            checked={spayed}
+            checked={editPetFormState.spayed}
             className="border-2"
-            // onChange={(e) => setSpayed(e.target.checked)}
+            onChange={(e) =>
+              setEditPetFormState({
+                ...editPetFormState,
+                spayed: e.target.checked,
+              })
+            }
           />
         </div>
         <label htmlFor="microchipNumber">Microchip Number</label>
@@ -232,11 +342,14 @@ function EditPetForm({
           required
           id="microchipNumber"
           className="border-2 rounded-lg mb-10"
-          value={microchip}
-          onChange={(e) => console.log(e.target.value)}
-          // onChange={(e) => setMicrochipNumber(e.target.value)}
+          value={editPetFormState.microchip}
+          onChange={(e) =>
+            setEditPetFormState({
+              ...editPetFormState,
+              microchip: e.target.value,
+            })
+          }
         />
-
         <button
           className="absolute bottom-2 right-2 text-sm bg-orange-500 rounded-lg p-2 px-4 hover:bg-orange-300 text-white button-grow drop-shadow-md"
           type="submit"
