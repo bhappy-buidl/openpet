@@ -89,7 +89,7 @@ async function mkUploadPetPhoto(formData: FormData) {
   }
 }
 
-export async function UPDATE(request: Request) {
+export async function PUT(request: Request) {
   const bundlr = mkBundlr();
   const formData = await request.formData();
   const previousTransactionId = formData.get("previousTransactionId");
