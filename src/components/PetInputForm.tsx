@@ -49,6 +49,8 @@ export function PetInputForm({ setOpenForm }: PetInputFormProps) {
         body: formData,
       });
 
+      console.log(response.json());
+
       if (response.ok) {
         setOpenForm(false);
       } else {

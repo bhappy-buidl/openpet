@@ -144,7 +144,9 @@ function EditPetForm({
     spayed,
     microchip,
   });
-  const [previousTransactionId] = useState<string>("123456");
+  const [previousTransactionId] = useState<string>(
+    "B8EFUNxRElGi0wtPcD_Ex56Cfbz6Mz74VlBX8dQW5io"
+  );
 
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -189,7 +191,7 @@ function EditPetForm({
       });
 
       if (response.ok) {
-        console.log("SUCCESS!");
+        console.log("SUCCESS!", response.json());
         setEditPetForm(false);
       } else {
         // Handle error
