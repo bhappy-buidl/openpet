@@ -23,6 +23,13 @@ async function uploadPetData(file: Buffer) {
   return uploadTx.id;
 }
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
+
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
