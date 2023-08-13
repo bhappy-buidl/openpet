@@ -1,15 +1,14 @@
 "use client";
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import PetABI from "@/app/abi/OpenPetNFT.json";
+import { AddVaxInfoForm } from "@/components/AddVaxInfoForm";
+import { PetInformation } from "@/components/PetInformation";
 import { PetInputForm } from "@/components/PetInputForm";
 import { TopBar } from "@/components/TopBar";
-import { PetInformation } from "@/components/PetInformation";
-import { AddVaxInfoForm } from "@/components/AddVaxInfoForm";
-import { useAccount } from "wagmi";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getContract } from "viem";
-import { useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 import { getWalletClient } from "wagmi/actions";
 import { baseGoerli } from "wagmi/chains";
-import PetABI from "@/app/abi/OpenPetNFT.json";
 
 //Dummy data to build out the UI without fetching
 const pets = [
@@ -127,31 +126,29 @@ export default function MyPets() {
   }, []);
 
   useEffect(() => {
-    async function mint() {
+    async function getPets() {
       const walletClient = await getWalletClient({
         chainId: baseGoerli.id,
       });
 
-      //@ts-ignore
       const contract = getContract({
         address: "0xaB2D4c1892a9064d47252794e4810a8E098f04a2",
         abi: PetABI.abi,
-        //@ts-ignore
         walletClient,
       });
 
-      //@ts-ignore
-      return await Promise.all(
-        petTokenIDs.map((token: any) => {
-          console.log("TOKEN inside MAP", token);
-          return contract.read.getPets([token.tokenId]);
-        })
+      return Promise.all(
+        petTokenIDs.map(
+          async (token: { tokenId: string; transactionHash: string }) => {
+            console.log("TOKEN inside MAP", token);
+            return contract.read.getPet([token.tokenId]); // Note: change to getPet
+          }
+        )
       );
-      // return tokenMetadata;
     }
 
     if (petTokenIDs) {
-      mint().then((hash) => console.log("transaction hash: ", hash));
+      getPets().then((pets) => console.log("these are the pets!", pets));
     }
   }, [petTokenIDs]);
 
