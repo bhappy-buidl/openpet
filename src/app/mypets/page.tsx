@@ -21,6 +21,19 @@ const pets = [
     microchip: "sk72x9sjlx8",
   },
   {
+    name: "buddy",
+    photo:
+      "https://images.pexels.com/photos/3090875/pexels-photo-3090875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+    species: "cat",
+    breed: "american shorthair",
+    markings: ["white paws", "brown and black pattern"],
+    gender: "male",
+    spayed: true,
+    microchip: "sk72x9sjlx8",
+  },
+  {
     name: "candus",
     photo:
       "https://images.pexels.com/photos/982300/pexels-photo-982300.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
