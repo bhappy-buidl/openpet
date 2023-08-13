@@ -14,12 +14,6 @@ function mkBundlr() {
   return bundlr;
 }
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable the Next.js body parser
-  },
-};
-
 type Vaccination = {
   date: string;
   vaxName: string;
@@ -51,30 +45,60 @@ type Pet = {
 export async function POST(request: Request) {
   const bundlr = mkBundlr();
   const formData = await request.formData();
+
+  const pet: Pet = {
+    name: formData.get("name") as string,
+    description: formData.get("description") as string,
+    species: formData.get("species") as string,
+    breed: formData.get("breed") as string,
+    color: formData.get("color") as string,
+    gender: formData.get("gender") as string,
+    spayedOrNeutered: formData.get("spayedOrNeutered") as string,
+    microchipNumber: formData.get("microchipNumber") as string,
+    vax: JSON.parse(formData.get("vax") as string),
+    tests: JSON.parse(formData.get("tests") as string),
+    doctorLicenseNumber: formData.get("doctorLicenseNumber") as string,
+    signature: formData.get("signature") as string,
+  };
+
   const imageFile = formData.get("photo") as any;
 
-  if (!imageFile?.type?.startsWith("image/")) {
-    return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+  console.log(imageFile?.type);
+
+  if (imageFile?.type?.startsWith("image/")) {
+    const imageType = imageFile.type.split("/")[1]; // jpeg or png
+    if (imageType !== "jpeg" && imageType !== "png") {
+      return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+    }
+    const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
+
+    try {
+      //@ts-ignore
+      const response = await bundlr.upload(fileBuffer, [
+        { name: "Content-Type", value: `image/${imageType}` },
+      ]);
+      pet.photo = `https://arweave.net/${response.id}`;
+    } catch (e) {
+      console.log("Error uploading file ", e);
+      return NextResponse.json(
+        { error: "Failed to upload file" },
+        { status: 500 }
+      );
+    }
   }
 
-  // Convert the file to a Buffer using FileReader
-  const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
-
-  // Upload the Buffer using the bundlr.upload function
-
-  // todo, detect the image type and store the correct type
   try {
-    // @ts-ignore tag types are correct, idk why it's being that way
-    const response = await bundlr.upload(fileBuffer, [
-      { name: "Content-Type", value: "image/jpeg" },
+    const jsonBuffer = Buffer.from(JSON.stringify(pet));
+    //@ts-ignore
+    const response = await bundlr.upload(jsonBuffer, [
+      { name: "Content-Type", value: "application/json" },
     ]);
     const arweaveUrl = `https://arweave.net/${response.id}`;
-    console.log(arweaveUrl);
-    return NextResponse.json({ transactionId: response.id });
+    return NextResponse.json({ transactionId: response.id, arweaveUrl });
   } catch (e) {
-    console.log("Error uploading file ", e);
+    console.log("Error uploading JSON ", e);
     return NextResponse.json(
-      { error: "Failed to upload file" },
+      { error: "Failed to upload JSON" },
       { status: 500 }
     );
   }
