@@ -25,9 +25,9 @@ export default function Home() {
             </a>
           </div>
           <div className="w-full md:w-1/2 flex justify-center items-center">
-            <video className="w-1/2">
-              <source src="https://www.youtube.com/watch?v=OvrGNZHdAJI" />
-            </video>
+            <video
+              src="https://www.youtube.com/watch?v=OvrGNZHdAJI"
+            />
           </div>
         </div>
       </div>
