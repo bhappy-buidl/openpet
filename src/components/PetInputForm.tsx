@@ -1,8 +1,12 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, Dispatch, SetStateAction } from "react";
 
-export function PetInputForm() {
+type PetInputFormProps = {
+  setOpenForm: Dispatch<SetStateAction<boolean>>;
+};
+
+export function PetInputForm({ setOpenForm }: PetInputFormProps) {
   const [name, setName] = useState<string>();
   const [photo, setPhoto] = useState<any>();
   const [description, setDescription] = useState<string>();
@@ -45,8 +49,10 @@ export function PetInputForm() {
         body: formData,
       });
 
+      console.log(response.json());
+
       if (response.ok) {
-        // we should close the form here
+        setOpenForm(false);
       } else {
         // Handle error
       }
