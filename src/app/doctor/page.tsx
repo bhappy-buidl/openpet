@@ -21,7 +21,35 @@ const DoctorReviewForm: React.FC = () => {
     }
   };
 
-  const [formData, setFormData] = useState({
+  type Vaccination = {
+    date: string;
+    vaxName: string;
+    route: string;
+    duration: string;
+  };
+
+  type Test = {
+    name: string;
+    result?: string;
+  };
+
+  type Pet = {
+    name: string;
+    description: string;
+    species: string;
+    breed: string;
+    color: string;
+    gender: string;
+    spayedOrNeutered: string;
+    microchipNumber: string;
+    photo?: any; // You can replace 'any' with the appropriate type for photos
+    vax: Vaccination[];
+    tests: Test[];
+    doctorLicenseNumber: string;
+    signature: string;
+  };
+
+  const [formData, setFormData] = useState<Pet>({
     name: "Buddy",
     description: "Friendly and playful cat",
     species: "Cat",
