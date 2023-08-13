@@ -42,10 +42,7 @@ type Pet = {
   signature: string;
 };
 
-export async function POST(request: Request) {
-  const bundlr = mkBundlr();
-  const formData = await request.formData();
-
+async function mkPetFromRequest(formData: FormData) {
   const pet: Pet = {
     name: formData.get("name") as string,
     description: formData.get("description") as string,
@@ -61,9 +58,12 @@ export async function POST(request: Request) {
     signature: formData.get("signature") as string,
   };
 
-  const imageFile = formData.get("photo") as any;
+  return pet;
+}
 
-  console.log(imageFile?.type);
+async function mkUploadPetPhoto(formData: FormData) {
+  const bundlr = mkBundlr();
+  const imageFile = formData.get("photo") as any;
 
   if (imageFile?.type?.startsWith("image/")) {
     const imageType = imageFile.type.split("/")[1]; // jpeg or png
@@ -72,12 +72,13 @@ export async function POST(request: Request) {
     }
     const fileBuffer = Buffer.from(await imageFile.arrayBuffer());
 
+    // don't really care about versioning the photo
     try {
       //@ts-ignore
       const response = await bundlr.upload(fileBuffer, [
         { name: "Content-Type", value: `image/${imageType}` },
       ]);
-      pet.photo = `https://arweave.net/${response.id}`;
+      return `https://arweave.net/${response.id}`;
     } catch (e) {
       console.log("Error uploading file ", e);
       return NextResponse.json(
@@ -86,6 +87,42 @@ export async function POST(request: Request) {
       );
     }
   }
+}
+
+export async function UPDATE(request: Request) {
+  const bundlr = mkBundlr();
+  const formData = await request.formData();
+  const previousTransactionId = formData.get("previousTransactionId");
+
+  const pet: Pet = await mkPetFromRequest(formData);
+  pet.photo = await mkUploadPetPhoto(formData);
+
+  // Convert the pet object to a JSON string and then to a buffer
+  const jsonBuffer = Buffer.from(JSON.stringify(pet));
+
+  try {
+    //@ts-ignore
+    const response = await bundlr.upload(jsonBuffer, [
+      { name: "Content-Type", value: "application/json" },
+      { name: "root-tx", value: previousTransactionId }, // Add metadata linking to previous transaction
+    ]);
+    const arweaveUrl = `https://arweave.net/${response.id}`;
+    return NextResponse.json({ transactionId: response.id, arweaveUrl });
+  } catch (e) {
+    console.log("Error uploading JSON ", e);
+    return NextResponse.json(
+      { error: "Failed to upload JSON" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  const bundlr = mkBundlr();
+  const formData = await request.formData();
+
+  const pet: Pet = await mkPetFromRequest(formData);
+  pet.photo = await mkUploadPetPhoto(formData);
 
   try {
     const jsonBuffer = Buffer.from(JSON.stringify(pet));
