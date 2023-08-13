@@ -20,6 +20,34 @@ export const config = {
   },
 };
 
+type Vaccination = {
+  date: string;
+  vaxName: string;
+  route: string;
+  duration: string;
+};
+
+type Test = {
+  name: string;
+  result?: string;
+};
+
+type Pet = {
+  name: string;
+  description: string;
+  species: string;
+  breed: string;
+  color: string;
+  gender: string;
+  spayedOrNeutered: string;
+  microchipNumber: string;
+  photo?: any; // You can replace 'any' with the appropriate type for photos
+  vax: Vaccination[];
+  tests: Test[];
+  doctorLicenseNumber: string;
+  signature: string;
+};
+
 export async function POST(request: Request) {
   const bundlr = mkBundlr();
   const formData = await request.formData();
