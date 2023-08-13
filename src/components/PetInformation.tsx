@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState, useRef } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 type PetInformationProps = {
   name: string;
@@ -184,7 +184,6 @@ function EditPetForm({
     );
 
     try {
-      console.log("gets here");
       const response = await fetch("/api", {
         method: "POST",
         body: formData,

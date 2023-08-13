@@ -1,22 +1,22 @@
 "use client";
-import { useState, useEffect } from "react";
 import {
   RainbowKitProvider,
-  getDefaultWallets,
   connectorsForWallets,
+  getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
 import {
   argentWallet,
-  trustWallet,
   ledgerWallet,
+  trustWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum, zora } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
+import { useEffect, useState } from "react";
+import { WagmiConfig, configureChains, createConfig } from "wagmi";
+import { baseGoerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, zora],
+  [baseGoerli],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID }),
     publicProvider(),

@@ -1,6 +1,11 @@
 "use client";
 
-import { useRef, useState, Dispatch, SetStateAction } from "react";
+import PetABI from "@/app/abi/OpenPetNFT.json";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { getContract } from "viem";
+import { useChainId } from "wagmi";
+import { getWalletClient } from "wagmi/actions";
+import { baseGoerli } from "wagmi/chains";
 
 type PetInputFormProps = {
   setOpenForm: Dispatch<SetStateAction<boolean>>;
@@ -16,8 +21,32 @@ export function PetInputForm({ setOpenForm }: PetInputFormProps) {
   const [gender, setGender] = useState<string>();
   const [spayed, setSpayed] = useState<boolean>(false);
   const [microchipNumber, setMicrochipNumber] = useState<string>();
+  const [transactionId, setTransactionId] = useState<string>("");
 
   const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const chainId = useChainId();
+
+  useEffect(() => {
+    async function mint() {
+      const walletClient = await getWalletClient({
+        chainId: baseGoerli.id,
+      });
+
+      const contract = getContract({
+        address: "0xaB2D4c1892a9064d47252794e4810a8E098f04a2",
+        abi: PetABI.abi,
+        walletClient,
+      });
+
+      const hash = await contract.write.mintPet([name, transactionId]);
+      return hash;
+    }
+
+    if (transactionId && name) {
+      mint().then((hash) => console.log("transaction hash: ", hash));
+    }
+  }, [transactionId, name]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,15 +72,16 @@ export function PetInputForm({ setOpenForm }: PetInputFormProps) {
     );
 
     try {
-      console.log("gets here");
       const response = await fetch("/api", {
         method: "POST",
         body: formData,
       });
 
-      console.log(response.json());
+      const r = await response.json();
+      console.log("this is the response", r);
 
       if (response.ok) {
+        setTransactionId(r.transactionId);
         setOpenForm(false);
       } else {
         // Handle error
@@ -165,7 +195,6 @@ export function PetInputForm({ setOpenForm }: PetInputFormProps) {
         </div>
         <label htmlFor="microchipNumber">Microchip Number</label>
         <input
-          required
           id="microchipNumber"
           className="border-2 rounded-lg mb-10"
           value={microchipNumber}
