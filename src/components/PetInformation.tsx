@@ -29,9 +29,9 @@ export function PetInformation({
     <div className="flex flex-col items-center p-4 rounded-br-lg rounded-tl-lg shadow-md gap-4 relative min-h-screen">
       <button
         onClick={() => setPetDisplayIndex(-1)}
-        className="absolute top-0 right-2"
+        className="absolute top-1 right-2 rounded-full border-2 py-1 px-2 button-grow"
       >
-        x
+        ✖️
       </button>
       <div className="">
         <img
