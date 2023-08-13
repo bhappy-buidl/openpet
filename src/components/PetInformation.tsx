@@ -144,6 +144,7 @@ function EditPetForm({
     spayed,
     microchip,
   });
+  const [previousTransactionId] = useState<string>("123456");
 
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -175,6 +176,10 @@ function EditPetForm({
       "microchipNumber",
       editPetFormState.microchip || "Default MicrochipNumber"
     );
+    formData.append(
+      "previousTransactionId",
+      previousTransactionId || "Default previousTransactionId"
+    );
 
     try {
       console.log("gets here");
@@ -191,6 +196,7 @@ function EditPetForm({
       }
     } catch (error) {
       // Handle fetch error
+      console.log(error);
     }
   };
 
@@ -286,7 +292,7 @@ function EditPetForm({
           onChange={(e) =>
             setEditPetFormState({
               ...editPetFormState,
-              species: e.target.value,
+              markings: e.target.value,
             })
           }
         />
