@@ -1,9 +1,15 @@
 "use client";
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, useEffect } from "react";
 import { PetInputForm } from "@/components/PetInputForm";
 import { TopBar } from "@/components/TopBar";
 import { PetInformation } from "@/components/PetInformation";
 import { AddVaxInfoForm } from "@/components/AddVaxInfoForm";
+import { useAccount } from "wagmi";
+import { getContract } from "viem";
+import { useChainId } from "wagmi";
+import { getWalletClient } from "wagmi/actions";
+import { baseGoerli } from "wagmi/chains";
+import PetABI from "@/app/abi/OpenPetNFT.json";
 
 //Dummy data to build out the UI without fetching
 const pets = [
@@ -85,6 +91,70 @@ export default function MyPets() {
 
   const [displayvaxForms, setDisplayVaxForms] = useState<boolean>(false);
 
+  const [petTokenIDs, setPetTokenIDs] = useState<any>([]);
+
+  const [petsArweaveLink, setArweavePetsLink] = useState<any>([]);
+
+  const { address, isConnecting, isDisconnected } = useAccount();
+
+  useEffect(() => {
+    fetch(
+      "https://api.studio.thegraph.com/query/37243/open-pet/version/latest",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
+        query GetPets($address: String!) {
+          transfers(first: 10, where: {to: $address}) {
+            tokenId
+            transactionHash
+          }}`,
+          variables: {
+            address: "0x05d0939eA98079C00Cc1e9646e14F60c6A801e29",
+          },
+        }),
+      }
+    )
+      .then((data) => {
+        return data.json();
+      })
+      .then((response: any) => {
+        setPetTokenIDs(response.data.transfers);
+      });
+  }, []);
+
+  useEffect(() => {
+    async function mint() {
+      const walletClient = await getWalletClient({
+        chainId: baseGoerli.id,
+      });
+
+      //@ts-ignore
+      const contract = getContract({
+        address: "0xaB2D4c1892a9064d47252794e4810a8E098f04a2",
+        abi: PetABI.abi,
+        //@ts-ignore
+        walletClient,
+      });
+
+      //@ts-ignore
+      return await Promise.all(
+        petTokenIDs.map((token: any) => {
+          console.log("TOKEN inside MAP", token);
+          return contract.read.getPets([token.tokenId]);
+        })
+      );
+      // return tokenMetadata;
+    }
+
+    if (petTokenIDs) {
+      mint().then((hash) => console.log("transaction hash: ", hash));
+    }
+  }, [petTokenIDs]);
+
   if (petDisplayIndex == -1) {
     return (
       <div className="flex flex-col flex-grow place-content-center min-w-full max-w-2xl mx-auto">
@@ -141,7 +211,7 @@ export default function MyPets() {
               {pets.length ? (
                 pets.map((pet, index) => (
                   <PetDisplayTile
-                    key={pet.name}
+                    key={index}
                     {...pet}
                     index={index}
                     setPetDisplayIndex={setPetDisplayIndex}
